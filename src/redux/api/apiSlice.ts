@@ -2,6 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export const api = createApi({
     reducerPath: 'api',
+    tagTypes:["fetch-comment"],
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000'}),
     endpoints: (builder) => ({
         getBooks : builder.query({
@@ -11,16 +12,19 @@ export const api = createApi({
         query: (id) => `/book/${id}`
      }),
      getComments: builder.query({
-        query: (id) => `/comment/${id}`
+        query: (id) => `/comment/${id}`,
+        providesTags:['fetch-comment'],
+
      }),
      postComment: builder.mutation({
         query: ({id,data}) => ({
             url: `/comment/${id}`,
             method: 'POST',
             body: data
-        })
+        }),
+        invalidatesTags:['fetch-comment']
      })
     })
 })
 
-export const {useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api
+export const {usePostCommentMutation,useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api
