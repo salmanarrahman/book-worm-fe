@@ -12,6 +12,13 @@ export const api = createApi({
      }),
      getComments: builder.query({
         query: (id) => `/comment/${id}`
+     }),
+     postComment: builder.mutation({
+        query: ({id,data}) => ({
+            url: `/comment/${id}`,
+            method: 'POST',
+            body: data
+        })
      })
     })
 })
