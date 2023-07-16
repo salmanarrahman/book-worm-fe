@@ -15,7 +15,10 @@ export default function ProductReview({id}:IProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
 
-  const {data} = useGetCommentsQuery(id)
+  const {data} = useGetCommentsQuery(id,{
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 10000
+  })
 
   const [postComment,{isLoading,isError,isSuccess}] = usePostCommentMutation()
 

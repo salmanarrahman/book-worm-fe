@@ -12,8 +12,24 @@ import {
 import { HiOutlineSearch } from 'react-icons/hi';
 import Cart from '../components/Cart';
 import logo from '../assets/images/logo.png';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { getAuth, signOut } from 'firebase/auth';
+import app from '@/lib/Firebase';
+import { setUser } from '@/redux/user/userSlice';
 
 export default function Navbar() {
+
+  const {user} = useAppSelector(state => state.user)
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    console.log('Logout');
+    signOut(getAuth(app)).then(() => {
+      // Sign-out successful.
+      dispatch(setUser(null));
+    });
+  };
+
   return (
     <nav className="w-full h-16 fixed top backdrop-blur-lg z-10">
       <div className="h-full w-full bg-white/60">
@@ -44,9 +60,18 @@ export default function Navbar() {
                 </Button>
               </li>
               <li>
+
+                {
+                  user.email ? 
+                  <Button onClick={handleLogout} variant="link" asChild>
+                  <p>Sign Out</p>
+                </Button>  :
                 <Button variant="link" asChild>
-                  <Link to="/Login">Login</Link>
-                </Button>   
+                  <Link to="/login">Login</Link>
+                </Button> 
+                }
+
+                  
               </li>
 
             </ul>
