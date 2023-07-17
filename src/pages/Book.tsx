@@ -8,21 +8,21 @@ import { useGetBooksQuery } from '@/redux/api/apiSlice';
 import { IBook } from '@/types/globalTypes';
 import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from '@/redux/hooks';
+import { useDispatch } from 'react-redux';
+import { setSearch } from '@/redux/filter/filterSlice';
 
 export default function Book() {
-  const [text, setText] = useState('');
+ // const [text, setText] = useState('');
+  const {search} = useAppSelector(state=>state.search)
+  const dispatch = useDispatch()
 
-  // const [data, setData] = useState<IProduct[]>([]);
-  // useEffect(() => {
-  //   fetch('./data.json')
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data));
-  // }, []);
 
-  const { data, isLoading, error } = useGetBooksQuery(undefined, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 1000
-  })
+  const { data, isLoading, error } = useGetBooksQuery(undefined //, {
+  //   refetchOnMountOrArgChange: true,
+  //   pollingInterval: 1000
+  // }
+  )
   console.log(data);
 
   if (isLoading) {
@@ -32,35 +32,25 @@ export default function Book() {
     return <p>Error</p>
   }
 
-  // const { toast } = useToast();
 
-  //! Dummy Data
 
-  const status = true;
-  const priceRange = 100;
-
-  //! **
-
-  const handleSlider = (value: number[]) => {
-    console.log(value);
-  };
 
   let productsData;
 
-  // if (status) {
-  //   productsData = data?.data?.filter(
-  //   //  (item: { status: boolean; price: number; }) => item.status === true && item.price < priceRange
-  //   );
-  // } else if (priceRange > 0) {
-  //   productsData = data?.data?.filter((item: { price: number; }) => item.price < priceRange);
-  // } else {
-  //   productsData = data?.data;
-  // }
+  if (search) {
+    productsData = data?.data?.filter(
+     (item: { genre: string; title: string;author:string }) => item.genre === search || item.title === search || item.author === search
+    );
+  }  else {
+    productsData = data?.data;
+  }
+
+  console.log(productsData);
 
   const handleInputChange = (event) => {
-    const newText = event.target.value;
-    setText(newText);
-    console.log(newText);
+    const newText:string = event.target.value;
+   // setText(newText);
+    dispatch(setSearch(newText))
   };
 
 
@@ -74,25 +64,7 @@ export default function Book() {
             <details className="dropdown mb-32">
               <summary className="m-1 text-white btn">Filter</summary>
 
-              {/* <div className="w-48">
-                <div className="dropdown text-white dropdown-end">
-                  <div tabIndex={0} className="dropdown-toggle">
-                    {selectedItem || 'Select an item'}
-                  </div>
-                  <ul className="shadow menu text-white dropdown-content bg-base-100 rounded-box w-52">
-                    <li>
-                      <a onClick={() => setSelectedItem('Item 1')}>Item 1</a>
-                    </li>
-                    <li>
-                      <a onClick={() => setSelectedItem('Item 2')}>Item 2</a>
-                    </li>
-                    <li>
-                      <a onClick={() => setSelectedItem('Item 3')}>Item 3</a>
-                    </li>
-                  </ul>
-                </div>
-              </div> */}
-
+        
             </details>
 
           </div>
@@ -109,7 +81,7 @@ export default function Book() {
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
         {
-          data?.data?.map((book: IBook) => (
+          productsData?.map((book: IBook) => (
             <BookCard book={book} />
           ))
         }
