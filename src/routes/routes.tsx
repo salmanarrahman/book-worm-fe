@@ -8,6 +8,10 @@ import Checkout from '@/pages/Checkout';
 import Signup from '@/pages/Signup';
 import ProductDetails from '@/pages/ProductDetails';
 import Book from '@/pages/Book';
+import Add from '@/pages/Add';
+import PrivateRoute from './PrivateRoute';
+import { Edit } from 'lucide-react';
+import EditBook from '@/pages/Edit';
 
 const routes = createBrowserRouter([
   {
@@ -29,6 +33,14 @@ const routes = createBrowserRouter([
       {
         path: '/checkout',
         element: <Checkout />,
+      },
+      {
+        path: '/add',
+        element: <PrivateRoute><Add /></PrivateRoute>,
+      },
+      {
+        path: '/edit/:id',
+        element: <PrivateRoute><EditBook /></PrivateRoute>,
       },
     ],
   },

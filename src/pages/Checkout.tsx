@@ -5,7 +5,6 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { IProduct } from '@/types/globalTypes';
 
 import { useState } from 'react';
 
@@ -14,7 +13,7 @@ export default function Checkout() {
 
   //! Dummy Data
 
-  const products: IProduct[] = [];
+  //const products: IProduct[] = [];
 
   //! **
 

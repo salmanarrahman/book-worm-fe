@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAppSelector } from '@/redux/hooks';
 
 interface IProps {
   id: string;
@@ -14,7 +15,7 @@ interface IProps {
 export default function ProductReview({id}:IProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
-
+ const {user} = useAppSelector((state)=>state.user)
   const {data} = useGetCommentsQuery(id,{
     refetchOnMountOrArgChange: true,
     pollingInterval: 10000
@@ -46,15 +47,20 @@ export default function ProductReview({id}:IProps) {
         onChange={handleChange}
         value={inputValue}
         className="min-h-[30px]" required/>
-        <Button className="rounded-full h-10 w-10 p-2 text-[25px]">
+        {
+          user?.email ? 
+          <Button className="rounded-full h-10 w-10 p-2 text-[25px]">
           <FiSend />
         </Button>
+        :
+        <></>
+        }
       </form>
       <div className="mt-10">
         {data?.comments?.map((comment, index) => (
           <div key={index} className="flex gap-3 items-center mb-5">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src="" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <p>{comment}</p>

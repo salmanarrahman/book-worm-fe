@@ -1,10 +1,10 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { Toaster } from './components/ui/Toaster';
+import { Toaster, toast } from 'react-hot-toast';
 import MainLayout from './layouts/MainLayout';
 import { useAppDispatch } from './redux/hooks';
-import app from './lib/Firebase';
 import { setLoading, setUser } from './redux/user/userSlice';
 import { useEffect } from 'react';
+import auth from './lib/Firebase';
 
 
 
@@ -14,7 +14,7 @@ function App() {
 
   useEffect(()=>{
 
-  onAuthStateChanged(getAuth(app),(user)=>{
+  onAuthStateChanged(auth,(user)=>{
 
     dispatch(setLoading(true))
 

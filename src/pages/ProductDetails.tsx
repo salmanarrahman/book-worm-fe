@@ -1,20 +1,32 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useGetCommentsQuery, useSingleBookQuery } from '@/redux/api/apiSlice';
+import { useDeleteBookMutation,  useSingleBookQuery } from '@/redux/api/apiSlice';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import book from '../assets/images/book.png'
+import { Edit } from 'lucide-react';
+import { useAppSelector } from '@/redux/hooks';
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const {user}=useAppSelector((state)=>state.user)
+
+  const {data,error} = useSingleBookQuery(id)
+  console.log(data);
+  const [deleteBook,{isLoading}] = useDeleteBookMutation()
+  const navigate = useNavigate()
+  
 
 
-  const {data,isLoading,error} = useSingleBookQuery(id)
 
 
-  // const product = data?.find((item) => item._id === Number(id));
 
-  //! Temporary code ends here
+  const handleDeleteBook = () => {
+    deleteBook(id)
+    navigate('/')
+    alert("Deleted")
+
+  }
 
   return (
     <>
@@ -31,10 +43,31 @@ export default function ProductDetails() {
               <li key={feature}>{feature}</li>
             ))}
           </ul>
-          <Button>Add to cart</Button>
+          
+            
+           {
+            user.email ? 
+            <>
+            
+          <Link to={`/edit/${id}`} className="w-full">
+      
+          <Button className="text-xl font-semibold">Edit</Button> <br />
+         
+
+        </Link>
+        <Button onClick={handleDeleteBook}>Delete</Button>  
+        </> :
+            
+            <></>
+           }       
         </div>
+        
+       
       </div>
+     
       <ProductReview id ={id}/>
+
+     
     </>
   );
 }

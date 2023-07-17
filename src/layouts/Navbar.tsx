@@ -13,18 +13,19 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import Cart from '../components/Cart';
 import logo from '../assets/images/logo.png';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { getAuth, signOut } from 'firebase/auth';
+import {  signOut } from 'firebase/auth';
 import app from '@/lib/Firebase';
 import { setUser } from '@/redux/user/userSlice';
+import auth from '@/lib/Firebase';
 
 export default function Navbar() {
 
-  const {user} = useAppSelector(state => state.user)
+  const { user } = useAppSelector(state => state.user)
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     console.log('Logout');
-    signOut(getAuth(app)).then(() => {
+    signOut(auth).then(() => {
       // Sign-out successful.
       dispatch(setUser(null));
     });
@@ -46,7 +47,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Button variant="link" asChild>
-                  <Link to="/products">Products</Link>
+                  <Link to="/book">All Book</Link>
                 </Button>
               </li>
               <li>
@@ -62,16 +63,23 @@ export default function Navbar() {
               <li>
 
                 {
-                  user.email ? 
-                  <Button onClick={handleLogout} variant="link" asChild>
-                  <p>Sign Out</p>
-                </Button>  :
-                <Button variant="link" asChild>
-                  <Link to="/login">Login</Link>
-                </Button> 
+                  user.email ?
+                    <>
+                       <Button variant="link" ><Link to="/add">Add New Books</Link></Button>
+                      <Button onClick={handleLogout} variant="link" ><p>Sign Out</p>
+                      </Button>
+                    </>
+                    :
+                    <>
+                   
+
+                      <Button variant="link" >
+                        <Link to="/login">Login</Link>
+                      </Button>
+                    </>
                 }
 
-                  
+
               </li>
 
             </ul>

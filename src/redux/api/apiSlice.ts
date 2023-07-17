@@ -6,7 +6,9 @@ export const api = createApi({
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000'}),
     endpoints: (builder) => ({
         getBooks : builder.query({
-            query: ()=> '/book'
+            query: ()=> '/book',
+            providesTags:['fetch-comment']
+
         }),
      singleBook:   builder.query({
         query: (id) => `/book/${id}`
@@ -23,8 +25,31 @@ export const api = createApi({
             body: data
         }),
         invalidatesTags:['fetch-comment']
-     })
+     }),
+     updateBook: builder.mutation({
+        query: ({id,data}) => ({
+            url: `/book/update/${id}`,
+            method: 'POST',
+            body: data
+        }),
+        invalidatesTags:['fetch-comment']
+     }),
+     addBook: builder.mutation({
+        query: ({data}) => ({
+            url: `/book`,
+            method: 'POST',
+            body: data
+        }),
+     }),
+   
+     deleteBook: builder.mutation({
+        query: (id) => ({
+            url: `/book/${id}`,
+            method: 'DELETE'
+        }),
+     }),
+
     })
 })
 
-export const {usePostCommentMutation,useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api
+export const {useUpdateBookMutation,useDeleteBookMutation,useAddBookMutation,usePostCommentMutation,useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import auth from '@/lib/Firebase';
 import app from '@/lib/Firebase';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-const auth = getAuth(app);
 
 interface IUserState {
     user: {
@@ -48,10 +48,10 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers:{
-        setUser : (state,action) => {
+        setUser : (state,action: PayloadAction<string | null>) => {
             state.user.email = action.payload
         },
-        setLoading: (state,action) =>{
+        setLoading: (state,action: PayloadAction<boolean>) =>{
             state.isLoading = action.payload
         }
     },
