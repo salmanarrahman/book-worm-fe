@@ -4,27 +4,15 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import {  useAppSelector } from '@/redux/hooks';
 import { createUser } from '@/redux/user/userSlice';
-import { useAddBookMutation, usePostCommentMutation, useSingleBookQuery, useUpdateBookMutation } from '@/redux/api/apiSlice';
-import { Toaster, toast } from 'react-hot-toast';
+import {  useSingleBookQuery, useUpdateBookMutation } from '@/redux/api/apiSlice';
+import {  toast } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 
 
 import { useWatch, Control } from "react-hook-form"
-
-
-
-
-interface AddBookInterface {
-    emails?: string;
-    title?: string;
-    author?: string;
-    genre?: string;
-    published?: string;
-
-}
 
 
 export default function EditBook() {
@@ -72,18 +60,6 @@ export default function EditBook() {
 
 
 
-            // if(error){
-            //     toast.error('Internal Server Error', {
-            //         duration: 2000, // Display duration in milliseconds (default: 5000)
-            //         position: 'top-center', // Toast position (default: 'top-right')
-            //       });
-            // }else {
-            //     toast.success('Book Updated Successfully', {
-            //         duration: 2000, // Display duration in milliseconds (default: 5000)
-            //         position: 'top-center', // Toast position (default: 'top-right')
-            //       });
-            // }
-
 
 
         },
@@ -93,36 +69,7 @@ export default function EditBook() {
 
 
 
-    /*
-     
-        const onSubmit = (datas: AddBookInterface) => {
-            console.log(datas);
-            const details = {
-                data : {
-                  
-                    title: datas?.title,
-                    author: datas?.author,
-                    genre: datas?.genre,
-                    published: datas?.published
-                }
-            }
-            console.log(details);
-            updateBook(details)
-            toast.success('Book Updated Successfully', {
-                duration: 2000, // Display duration in milliseconds (default: 5000)
-                position: 'top-center', // Toast position (default: 'top-right')
-              });
-            if(isError){
-                toast.error('Internal Server Error', {
-                    duration: 2000, // Display duration in milliseconds (default: 5000)
-                    position: 'top-center', // Toast position (default: 'top-right')
-                  });
-            }
-    
-    
-        };
-    
-        */
+
 
     const { register, handleSubmit } = useForm();
 
@@ -211,6 +158,7 @@ export default function EditBook() {
 
         //     </div>
         // </div>
+        <div className='mx-auto container h-[calc(100vh-80px)]'>
 
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
@@ -251,7 +199,7 @@ export default function EditBook() {
             </div>
             <Button type="submit">Submit</Button>
         </form>
-
+        </div>
     );
 }
 

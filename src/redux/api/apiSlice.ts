@@ -3,11 +3,15 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export const api = createApi({
     reducerPath: 'api',
     tagTypes:["fetch-comment"],
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000'}),
+    baseQuery: fetchBaseQuery({baseUrl: ' https://simple-server-saallu.vercel.app'}),
     endpoints: (builder) => ({
         getBooks : builder.query({
             query: ()=> '/book',
             providesTags:['fetch-comment']
+
+        }),
+        getRecentBooks : builder.query({
+            query: ()=> '/book/recent',           
 
         }),
      singleBook:   builder.query({
@@ -52,4 +56,4 @@ export const api = createApi({
     })
 })
 
-export const {useUpdateBookMutation,useDeleteBookMutation,useAddBookMutation,usePostCommentMutation,useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api
+export const {useGetRecentBooksQuery,useUpdateBookMutation,useDeleteBookMutation,useAddBookMutation,usePostCommentMutation,useGetBooksQuery,useSingleBookQuery,useGetCommentsQuery} = api

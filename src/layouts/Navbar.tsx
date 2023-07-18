@@ -10,7 +10,6 @@ import {
   DropdownMenuContent,
 } from '../components/ui/dropdown-menu';
 import { HiOutlineSearch } from 'react-icons/hi';
-import Cart from '../components/Cart';
 import logo from '../assets/images/logo.png';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {  signOut } from 'firebase/auth';
@@ -50,16 +49,8 @@ export default function Navbar() {
                   <Link to="/book">All Book</Link>
                 </Button>
               </li>
-              <li>
-                <Button variant="link" asChild>
-                  <Link to="/checkout">Checkout</Link>
-                </Button>
-              </li>
-              <li>
-                <Button variant="ghost">
-                  <HiOutlineSearch size="25" />
-                </Button>
-              </li>
+             
+            
               <li>
 
                 {
